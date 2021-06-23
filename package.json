@@ -1,0 +1,41 @@
+{
+    "name": "sid",
+    "version": "1.0.0",
+    "description": "Short ID Generator",
+    "main": "mod.js",
+    "scripts": {
+        "test": "node tests/test.js"
+    },
+    "keywords": [
+        "id",
+        "uid",
+        "uuid",
+        "guid",
+        "sid",
+        "suid",
+        "unique",
+        "unified",
+        "secure",
+        "super",
+        "nano",
+        "nanoid",
+        "micro",
+        "microid",
+        "rand",
+        "randid",
+        "gen",
+        "generator",
+        "global",
+        "globally",
+        "userid",
+        "user",
+        "short"
+    ],
+    "repository": "https://github.com/eru123/sid",
+    "author": "eru123 <yeoligoakino@gmail.com>",
+    "license": "Apache-2.0",
+    "private": false,
+    "dependencies": {
+        "numesis": "^1.0.1"
+    }
+}
