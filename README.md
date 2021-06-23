@@ -22,7 +22,7 @@ Quick Example
 
 ```js
 // Node
-const USID = require("../mod.js");
+const USID = require("usid");
 
 // Deno
 // Importing the latest version of USID from deno.land
