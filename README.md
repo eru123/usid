@@ -1,6 +1,6 @@
 # usid
 
-Short ID Generator
+Short and Unique ID Generator. Random ID, UUID, UID and SID Generator.
 
 # Installation
 
