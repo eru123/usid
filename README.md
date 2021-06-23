@@ -79,3 +79,5 @@ const len = 15;
 
 const unique_id = usid.uuid(len); //Output: CLiouVTquuTL3wf
 ```
+# LICENSE
+Apache-2.0[@eru123](https://github.com/eru123)
