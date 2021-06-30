@@ -1,6 +1,6 @@
 {
     "name": "usid",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Unique and Short ID Generator",
     "main": "mod.js",
     "scripts": {
@@ -31,7 +31,7 @@
         "user",
         "short"
     ],
-    "repository": "https://github.com/eru123/sid",
+    "repository": "https://github.com/eru123/usid",
     "author": "eru123 <yeoligoakino@gmail.com>",
     "license": "Apache-2.0",
     "private": false,
