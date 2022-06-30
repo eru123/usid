@@ -36,6 +36,6 @@
     "license": "Apache-2.0",
     "private": false,
     "dependencies": {
-        "numesis": "^1.0.1"
+        "numesis": "^1.1.0"
     }
 }
