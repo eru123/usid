@@ -1,83 +1,78 @@
 # usid
 
-Unique and Short ID Generator. Random ID, UUID, UID and SID Generator.
+Create random, unique or index based ID
 
-# Installation
-
-### NPM
+# Installation on Nodejs
 
 ```bash
+# NPM
 npm i usid
-```
 
-### Yarn
-
-```bash
+# Yarn
 yarn add usid
-```
-
-# Example
-
-Quick Example
-
-```js
-// Node
-const USID = require("usid");
-
-// Deno
-// Importing the latest version of USID from deno.land
-// import USID from "https://deno.land/x/usid/mod.ts";
-
-// Initializing the USID Object
-const usid = new USID();
-
-// Create 15 characters Unique ID
-const unique_id = usid.uuid();
-console.log("Unique ID:", unique_id);
-
-// Create 3 characters Random ID
-const random_id = usid.rand();
-console.log("Random ID:", random_id);
 ```
 
 # Usage
 
-### Importing or requiring to your project.
-
-```js
-// Node
-const USID = require("usid");
-
-// Deno
-import USID from "https://deno.land/x/usid/mod.ts";
+### Initialization with TypeScript Deno
+```ts
+import {
+    uid,
+    createIndex, 
+    DEFAULT_CHARSET,
+    rand
+} from "https://deno.land/x/usid/mod.ts";
 ```
 
-### Random ID with custom length
-
--   **_rand(length)_** method, generates a random ID with custom length, default length is 3
-
-```js
-const usid = new USID();
-
-// Default length
-const len = 3;
-
-const random_id = usid.rand(len); // output: vCk
+### Initialization with Nodejs
+```ts
+const {
+    uid,
+    createIndex, 
+    DEFAULT_CHARSET,
+    rand
+} = require('usid');
 ```
 
-### UUID
+### Index based ID
+```ts
 
--   **_uuid(length)_** method, generates Unique ID based on your machine timestamp, the default length is `15`
--   The greater the length, the more it can avoid duplicated ID's, the length of `15` is ideal if you are generating ID's with less than _500,000_ ID's per seconds without duplicates.
--   If you are using deno, you can use the flag `--allow-hrtime` to get more accurate timestamp, if this is enabled, with default `15` length, you can generate up to `1,000,000` ID's per seconds without duplicates.
+// imagine that x is a database connector
+let x = 0;
 
-```js
-const usid = new USID();
+const options = {
+    get: () => x,
+    set: (value) => x = value,
+    charset: DEFAULT_CHARSET, // optional,
+    min: 3, // optional, default is 0
+}
 
-// Default length
-const len = 15;
+const getID = createIndex(options);
+for (let i = 0; i < 3; i++) console.log(getID());
 
-const unique_id = usid.uuid(len); //Output: CLiouVTquuTL3wf
+// Output:
+// aab
+// aac
+// aad
 ```
+
+### Random ID
+Generate random ID with fixed length
+```ts
+const len = 5; // optional, default is 3
+console.log(rand(len, DEFAULT_CHARSET)); // default charset is optional
+// Output: random 5 characters based on DEFAULT_CHARSET
+```
+
+### Unique ID
+Generate unique ID with fixed length
+```ts
+const output_length = 24; // optional, default is 24
+const base_decimal_length = 18; // optional, default is 18
+
+console.log(uid(output_length, base_decimal_length, DEFAULT_CHARSET)); // default charset is optional
+// Output: outputs 24 characters based on DEFAULT_CHARSET
+```
+
 # LICENSE
 Apache-2.0[@eru123](https://github.com/eru123)
