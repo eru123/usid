@@ -1,11 +1,8 @@
 {
     "name": "usid",
-    "version": "1.0.2",
+    "version": "2.0.0",
     "description": "Unique and Short ID Generator",
     "main": "mod.js",
-    "scripts": {
-        "test": "node tests/test.js"
-    },
     "keywords": [
         "id",
         "uid",
