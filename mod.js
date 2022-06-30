@@ -1,50 +1,73 @@
-const Numesis = require("numesis");
+const Numesis = require('numesis');
 
-class USID {
-    charset;
-    n;
-    c;
-    constructor(
-        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    ) {
-        this.charset = charset;
-        this.n = new Numesis(charset);
-        this.c = {
-            l: charset.length,
-            i: charset.length - 1,
-        };
-    }
-    randInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    rand(len = 3) {
-        let res = "";
-        for (let i = 0; i < len; i++)
-            res += this.n.e(this.randInt(0, this.c.i));
-        return res;
-    }
-    zeros(str, size = 2, left = false) {
-        str = String(str);
-        let z = "";
-        for (let i = 0; i < size - str.length; i++) z += "0";
-        return left ? z + str : str + z;
-    }
-    uid(complexity = 3, hrtime = false, separator = ".") {
-        const d = Date.now();
-        let res = this.n.e(d);
-        try {
-            if (hrtime) res += this.n.e(Number(performance.now()));
-        } catch (e) {
-            res += this.rand(1) + "." + this.rand(4);
-        }
-        return String(res + this.rand(complexity)).replace(".", separator);
-    }
-    uuid(len = 15) {
-        const uid = this.uid(0, true).replace(".", "");
-        const rand = this.rand(len - uid.length);
-        return String(uid + rand).slice(0, len);
-    }
-}
-module.exports = USID;
+/**
+ * @type {string} DEFAULT_CHARSET The default charset for USID
+ */
+const DEFAULT_CHARSET = Numesis.DEFAULT;
+
+/**
+ * @param min The minimum number
+ * @param max The maximum number
+ * @returns A number between min and max
+ */
+const randInt = (min, max) => parseInt(Math.random() * (max - min + 1) + min + "");
+
+/**
+ * @param len The length of the string
+ * @param charset The charset for the string
+ * @returns A random string with len length
+ */
+const rand = (len = 3, charset = null) => {
+    charset = charset || DEFAULT_CHARSET;
+    const n = new Numesis(charset);
+    const c = n.charset.length;
+    const min = c ** (len - 1) - (len > 1 ? 0 : 1);
+    const max = c ** len - 1;
+    return n.e(randInt(min, max));
+};
+
+/**
+ * @param out_len The length of the output string
+ * @param real_len The length of the initial int value to be encoded
+ * @param charset The charset for the string
+ * @returns A random string with out_len length
+ */
+const uid = (out_len = 24, real_len = 18, charset = DEFAULT_CHARSET) => {
+    charset = charset || DEFAULT_CHARSET;
+    const n = new Numesis(charset);
+    let y = performance.now().toString();
+    y = (y.length < real_len ? y + "0".repeat(real_len - y.length - 1) + "1" : y).replace(".", "0");
+    let r = n.e(y);
+    return r.length < out_len ? r + rand(out_len - r.length) : r;
+};
+
+/**
+ * 
+ * @param opts The options for the USID
+ * @returns A callback function that generates an index based ID
+ */
+const createIndex = (opts) => {
+    
+    /**
+     * @return encoded latest index
+     */
+    return () => {
+        
+        let { get, set, charset, min } = opts;
+        min = min || 0;
+        charset = charset || DEFAULT_CHARSET;
+        const n = new Numesis(opts.charset);
+        const lastIndex = get();
+        const index = lastIndex + 1;
+        set(index);
+        return n.t(min, index);
+    };
+};
+
+module.exports = {
+    DEFAULT_CHARSET,
+    randInt,
+    rand,
+    uid,
+    createIndex
+};
